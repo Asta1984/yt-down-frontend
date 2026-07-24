@@ -1,20 +1,29 @@
-import { type VideoInfoResponse } from "../types/video";
-
-const API_BASE = "http://localhost:5000/api";
+import { apiClient } from './client'
+import {
+  VideoInfoResponseSchema,
+  QueueResponseSchema,
+  JobStatusSchema,
+  type VideoInfoResponse,
+  type QueueResponse,
+  type JobStatus,
+} from '@/types/video'
 
 export async function getVideoInfo(url: string): Promise<VideoInfoResponse> {
-  const response = await fetch(`${API_BASE}/video-info`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ url })
-  });
+  const { data } = await apiClient.post('/video-info', { url })
+  return VideoInfoResponseSchema.parse(data)
+}
 
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || "Request failed");
-  }
+export async function queueDownload(url: string, formatId: string): Promise<QueueResponse> {
+  const { data } = await apiClient.post('/download', { url, formatId })
+  return QueueResponseSchema.parse(data)
+}
 
-  return response.json();
+export async function getJobStatus(jobId: string): Promise<JobStatus> {
+  const { data } = await apiClient.get(`/job/${jobId}`)
+  return JobStatusSchema.parse(data)
+}
+
+export function getDownloadUrl(jobId: string): string {
+  const base = import.meta.env.VITE_API_BASE ?? 'http://localhost:5000/api'
+  return `${base}/job/${jobId}/download`
 }

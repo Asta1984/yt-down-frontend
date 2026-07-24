@@ -1,31 +1,96 @@
-export interface VideoFormat {
-  format_id: string;
-  ext: string;
-  format: string;
+import { z } from 'zod'
 
-  filesize: number | null;
+// ── Zod schemas ──────────────────────────────────────────────────────────────
 
-  width: number | null;
-  height: number | null;
+export const VideoFormatSchema = z.object({
+  format_id: z.string(),
+  ext: z.string(),
+  format: z.string(),
+  vcodec: z.string(),
+  acodec: z.string(),
+  url: z.string(),
 
-  fps: number | null;
+  // Absent on some formats (e.g. format 18 only has filesize_approx)
+  filesize: z.number().nullable().optional(),
+  filesize_approx: z.number().nullable().optional(),
 
-  vcodec: string;
-  acodec: string;
+  // Absent on audio-only formats
+  width: z.number().nullable().optional(),
+  height: z.number().nullable().optional(),
+  fps: z.number().nullable().optional(),
+  resolution: z.string().optional(),
+  dynamic_range: z.string().nullable().optional(),
 
-  hasVideo: boolean;
-  hasAudio: boolean;
+  // Absent on video-only formats
+  audio_channels: z.number().nullable().optional(),
+  asr: z.number().nullable().optional(),
 
-  url: string;
-}
+  // Bitrate fields — present on most but nullable
+  tbr: z.number().nullable().optional(),
+  vbr: z.number().nullable().optional(),
+  abr: z.number().nullable().optional(),
 
-export interface VideoInfo {
-  id: string;
-  title: string;
-  duration: number;
-  thumbnail: string;
-  uploader: string;
-  webpage_url: string;
+  // Human-readable quality label e.g. "720p", "medium"
+  format_note: z.string().optional(),
+})
 
-  formats: VideoFormat[];
-}
+export const VideoInfoSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  duration: z.number(),
+  thumbnail: z.string(),
+  uploader: z.string(),
+  webpage_url: z.string(),
+  formats: z.array(VideoFormatSchema),
+
+  // Optional enrichment fields the UI can use if present
+  description: z.string().optional(),
+  view_count: z.number().nullable().optional(),
+  like_count: z.number().nullable().optional(),
+  channel: z.string().optional(),
+  upload_date: z.string().optional(),         // "20240221"
+  duration_string: z.string().optional(),     // "3:36"
+})
+
+export const VideoInfoResponseSchema = z.object({
+  success: z.boolean(),
+  data: VideoInfoSchema,
+})
+
+export const QueueResponseSchema = z.object({
+  success: z.boolean(),
+  message: z.string(),
+  jobId: z.string(),
+  status: z.string(),
+})
+
+export const JobStatusSchema = z.object({
+  success: z.boolean(),
+  jobId: z.string(),
+  status: z.enum(['waiting', 'active', 'completed', 'failed', 'delayed', 'unknown']),
+  progress: z.number(),
+  data: z.object({ url: z.string(), formatId: z.string() }).nullable().optional(),
+  result: z.object({ filePath: z.string(), filename: z.string() }).nullable().optional(),
+})
+
+export const UrlSchema = z.object({
+  url: z.string().min(1, 'URL is required').url('Please enter a valid URL'),
+})
+
+// ── Inferred types ────────────────────────────────────────────────────────────
+
+export type VideoFormat = z.infer<typeof VideoFormatSchema>
+export type VideoInfo = z.infer<typeof VideoInfoSchema>
+export type VideoInfoResponse = z.infer<typeof VideoInfoResponseSchema>
+export type QueueResponse = z.infer<typeof QueueResponseSchema>
+export type JobStatus = z.infer<typeof JobStatusSchema>
+export type UrlForm = z.infer<typeof UrlSchema>
+
+// ── Derived helpers ───────────────────────────────────────────────────────────
+
+export type DownloadState =
+  | 'idle'
+  | 'queued'
+  | 'active'
+  | 'completed'
+  | 'failed'
