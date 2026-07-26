@@ -1,9 +1,9 @@
 import { useMemo } from 'react'
 import { Check } from 'lucide-react'
-import type { VideoFormat } from '@/types/video'
-import { Badge } from '@/components/ui/badge'
-import { formatBytes } from '@/lib/utils'
-import { cn } from '@/lib/utils'
+import type { VideoFormat } from '../types/video'
+import { Badge } from '../components/ui/badge'
+import { formatBytes } from '../lib/utils'
+import { cn } from '../lib/utils'
 
 interface Props {
   formats: VideoFormat[]

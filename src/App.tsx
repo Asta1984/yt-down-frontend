@@ -1,8 +1,8 @@
-import { useVideoStore } from '@/store/videoStore'
-import UrlInput from '@/components/UrlInput'
-import VideoCard from '@/components/VideoCard'
-import FormatList from '@/components/FormatList'
-import DownloadPanel from '@/components/DownloadPanel'
+import { useVideoStore} from '../src/store/videoStore'
+import UrlInput from '../src/components/UrlInput'
+import VideoCard from '../src/components/VideoCard'
+import FormatList from '../src/components/FormatList'
+import DownloadPanel from '../src/components/DownloadPanel'
 
 export default function App() {
   const { video, selectedFormat, setSelectedFormat } = useVideoStore()

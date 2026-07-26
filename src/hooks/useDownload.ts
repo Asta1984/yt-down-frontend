@@ -1,7 +1,7 @@
-import { queueDownload, getJobStatus, getDownloadUrl } from '@/api/videoApi'
-import { useDownloadStore } from '@/store/downloadStore'
-import { useVideoStore } from '@/store/videoStore'
-import { sleep } from '@/lib/utils'
+import { queueDownload, getJobStatus, getDownloadUrl } from '../api/videoApi'
+import { useDownloadStore } from '../store/downloadStore'
+import { useVideoStore } from '../store/videoStore'
+import { sleep } from '../lib/utils'
 
 const POLL_INTERVAL_MS = 1000
 const MAX_POLLS = 300 // 5 minutes max

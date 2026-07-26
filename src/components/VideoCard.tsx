@@ -1,6 +1,6 @@
 import { Clock, User } from 'lucide-react'
-import type { VideoInfo } from '@/types/video'
-import { formatDuration } from '@/lib/utils'
+import type { VideoInfo } from '../types/video'
+import { formatDuration } from '../lib/utils'
 
 interface Props {
   video: VideoInfo

@@ -1,9 +1,9 @@
 import { Download, Loader2, CheckCircle2, AlertCircle } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Progress } from '@/components/ui/progress'
-import { useDownload } from '@/hooks/useDownload'
-import { useVideoStore } from '@/store/videoStore'
-import { cn } from '@/lib/utils'
+import { Button } from '../components/ui/button'
+import { Progress } from '../components/ui/progress'
+import { useDownload } from '../hooks/useDownload'
+import { useVideoStore } from '../store/videoStore'
+import { cn } from '../lib/utils'
 
 export default function DownloadPanel() {
   const { selectedFormat } = useVideoStore()

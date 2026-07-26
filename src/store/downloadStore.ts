@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { DownloadState } from '@/types/video'
+import type { DownloadState } from '../types/video'
 
 interface DownloadStoreState {
   jobId: string | null

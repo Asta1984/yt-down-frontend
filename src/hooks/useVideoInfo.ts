@@ -1,7 +1,7 @@
-import { getVideoInfo } from '@/api/videoApi'
-import { useVideoStore } from '@/store/videoStore'
-import { useDownloadStore } from '@/store/downloadStore'
-import { UrlSchema } from '@/types/video'
+import { getVideoInfo } from '../api/videoApi'
+import { useVideoStore } from '../store/videoStore'
+import { useDownloadStore } from '../store/downloadStore'
+import { UrlSchema } from '../types/video'
 
 export function useVideoInfo() {
   const { url, setVideo, setFetchLoading, setFetchError } = useVideoStore()

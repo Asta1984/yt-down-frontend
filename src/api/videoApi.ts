@@ -6,7 +6,7 @@ import {
   type VideoInfoResponse,
   type QueueResponse,
   type JobStatus,
-} from '@/types/video'
+} from '../types/video'
 
 export async function getVideoInfo(url: string): Promise<VideoInfoResponse> {
   const { data } = await apiClient.post('/video-info', { url })

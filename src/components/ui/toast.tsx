@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as ToastPrimitive from '@radix-ui/react-toast'
 import { X } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn } from '../../lib/utils'
 
 const ToastProvider = ToastPrimitive.Provider
 const ToastViewport = React.forwardRef<
@@ -11,7 +11,7 @@ const ToastViewport = React.forwardRef<
   <ToastPrimitive.Viewport
     ref={ref}
     className={cn(
-      'fixed bottom-4 right-4 z-[100] flex max-h-screen w-full max-w-sm flex-col gap-2',
+      'fixed bottom-4 right-4 z-100 flex max-h-screen w-full max-w-sm flex-col gap-2',
       className
     )}
     {...props}
