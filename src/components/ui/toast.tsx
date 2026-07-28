@@ -3,9 +3,10 @@ import * as ToastPrimitive from '@radix-ui/react-toast'
 import { X } from 'lucide-react'
 import { cn } from '../../lib/utils'
 
+
 const ToastProvider = ToastPrimitive.Provider
 const ToastViewport = React.forwardRef<
-  React.ElementRef<typeof ToastPrimitive.Viewport>,
+  React.ComponentRef<typeof ToastPrimitive.Viewport>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitive.Viewport>
 >(({ className, ...props }, ref) => (
   <ToastPrimitive.Viewport

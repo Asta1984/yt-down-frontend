@@ -1,9 +1,10 @@
-import { Download, Loader2, CheckCircle2, AlertCircle } from 'lucide-react'
-import { Button } from '../components/ui/button'
-import { Progress } from '../components/ui/progress'
-import { useDownload } from '../hooks/useDownload'
-import { useVideoStore } from '../store/videoStore'
-import { cn } from '../lib/utils'
+import { Download, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useDownload } from '@/hooks/useDownload';
+import { useVideoStore } from '@/store/videoStore';
+import { cn } from '@/lib/utils';
+import {Progress} from '@/components/ui/progress';
+
 
 export default function DownloadPanel() {
   const { selectedFormat } = useVideoStore()
@@ -26,7 +27,7 @@ export default function DownloadPanel() {
       <Button
         onClick={handleClick}
         disabled={(!selectedFormat && !isDone && !isFailed) || isActive}
-        variant={isDone ? 'success' : isFailed ? 'destructive' : 'default'}
+        variant={isDone ? 'default' : isFailed ? 'destructive' : 'default'}
         size="lg"
         className={cn(
           'w-full transition-all duration-300',
@@ -40,23 +41,20 @@ export default function DownloadPanel() {
 
         <span>
           {downloadState === 'queued' && 'Queuing…'}
-          {downloadState === 'active' && `Downloading — ${progress}%`}
+          {downloadState === 'active' && `Downloading`}
           {downloadState === 'completed' && 'Save file'}
           {downloadState === 'failed' && 'Retry'}
           {downloadState === 'idle' && (selectedFormat ? 'Download' : 'Select a format')}
         </span>
       </Button>
-
-      {/* Progress bar — only visible while active */}
-      {isActive && (
+       {isActive && (
         <div className="space-y-1.5">
-          <Progress value={progress} className="h-1.5" />
           <div className="flex justify-between text-[11px] font-mono text-zinc-600">
             <span>
               {downloadState === 'queued' ? 'waiting in queue' : 'downloading'}
             </span>
-            <span>{progress}%</span>
           </div>
+        <Progress value={progress} />
         </div>
       )}
 

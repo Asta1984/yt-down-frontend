@@ -1,8 +1,8 @@
-import { useVideoStore} from '../src/store/videoStore'
-import UrlInput from '../src/components/UrlInput'
-import VideoCard from '../src/components/VideoCard'
-import FormatList from '../src/components/FormatList'
-import DownloadPanel from '../src/components/DownloadPanel'
+import { useVideoStore} from '@/store/videoStore'
+import UrlInput from '@/components/UrlInput'
+import VideoCard from '@/components/VideoCard'
+import FormatList from '@/components/FormatList'
+import DownloadPanel from '@/components/DownloadPanel'
 
 export default function App() {
   const { video, selectedFormat, setSelectedFormat } = useVideoStore()
@@ -12,8 +12,8 @@ export default function App() {
       {/* Header */}
       <header className="border-b border-zinc-800/60 px-6 py-4">
         <div className="mx-auto flex max-w-2xl items-baseline gap-2">
-          <span className="font-mono text-violet-400 text-lg font-medium tracking-tight">
-            clipdown
+          <span className="font-mono text-cyan-400 text-lg font-medium tracking-tight">
+            Freedowm
           </span>
           <span className="text-xs text-zinc-600">
             download anything, any format
@@ -63,7 +63,7 @@ export default function App() {
               Paste a URL above to get started
             </p>
             <p className="mt-1 text-xs text-zinc-700">
-              YouTube · Vimeo · Twitter/X · Instagram · and hundreds more
+              YouTube 
             </p>
           </div>
         )}

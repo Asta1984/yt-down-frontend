@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { Search, X } from 'lucide-react'
-import { Input } from '../components/ui/input'
-import { Button } from '../components/ui/button'
-import { useVideoStore } from '../store/videoStore'
-import { useVideoInfo } from '../hooks/useVideoInfo'
-import { useDownloadStore } from '../store/downloadStore'
-import { cn } from '../lib/utils'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { useVideoStore } from '@/store/videoStore'
+import { useVideoInfo } from '@/hooks/useVideoInfo'
+import { useDownloadStore } from '@/store/downloadStore'
+import { cn } from '@/lib/utils'
 
 export default function UrlInput() {
   const { url, setUrl, fetchLoading, fetchError } = useVideoStore()
@@ -28,7 +28,7 @@ export default function UrlInput() {
       <div
         className={cn(
           'flex items-center gap-2 rounded-lg border bg-zinc-900 px-3 transition-colors',
-          focused ? 'border-violet-500' : 'border-zinc-700',
+          focused ? 'border-cyan-500' : 'border-zinc-700',
           fetchError && !focused && 'border-red-800'
         )}
       >
@@ -61,6 +61,7 @@ export default function UrlInput() {
           onClick={fetchVideo}
           disabled={fetchLoading || !url.trim()}
           size="sm"
+          variant='default'
           className="shrink-0"
         >
           {fetchLoading ? (

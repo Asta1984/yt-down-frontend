@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { VideoFormat, VideoInfo } from '../types/video'
+import type { VideoFormat, VideoInfo } from '@/types/video'
 
 interface VideoState {
   url: string

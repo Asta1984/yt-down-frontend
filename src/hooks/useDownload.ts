@@ -1,10 +1,10 @@
-import { queueDownload, getJobStatus, getDownloadUrl } from '../api/videoApi'
-import { useDownloadStore } from '../store/downloadStore'
-import { useVideoStore } from '../store/videoStore'
-import { sleep } from '../lib/utils'
+import { queueDownload, getJobStatus, getDownloadUrl } from '@/api/videoApi'
+import { useDownloadStore } from '@/store/downloadStore'
+import { useVideoStore } from '@/store/videoStore'
+import { sleep } from '@/lib/utils'
 
-const POLL_INTERVAL_MS = 1000
-const MAX_POLLS = 300 // 5 minutes max
+const POLL_INTERVAL_MS = 200
+const MAX_POLLS = 3000 
 
 export function useDownload() {
   const { url } = useVideoStore()
@@ -37,7 +37,17 @@ export function useDownload() {
         polls++
 
         const status = await getJobStatus(newJobId)
-        setProgress(status.progress ?? 0)
+        setProgress(status.progress)
+
+        if (status.status === 'active'){
+          setDownloadState('active')
+          setProgress(status.progress)
+        }
+
+        if (status.status === 'waiting'){
+          setDownloadState('queued')
+          setProgress(status.progress)
+        }
 
         if (status.status === 'completed') {
           setDownloadState('completed')

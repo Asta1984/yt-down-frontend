@@ -1,9 +1,9 @@
 import { useMemo } from 'react'
 import { Check } from 'lucide-react'
-import type { VideoFormat } from '../types/video'
-import { Badge } from '../components/ui/badge'
-import { formatBytes } from '../lib/utils'
-import { cn } from '../lib/utils'
+import type { VideoFormat } from '@/types/video'
+import { Badge } from '@/components/ui/badge'
+import { formatBytes } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 
 interface Props {
   formats: VideoFormat[]
@@ -58,7 +58,7 @@ export default function FormatList({ formats, selected, onSelect }: Props) {
                   className={cn(
                     'group w-full flex items-center justify-between rounded-md border px-3 py-2.5 text-left transition-colors',
                     isSelected
-                      ? 'border-violet-700 bg-violet-950/50 text-zinc-100'
+                      ? 'border-cyan-700 bg-cyan-950/50 text-zinc-100'
                       : 'border-zinc-800 bg-zinc-900/30 text-zinc-400 hover:border-zinc-700 hover:bg-zinc-800/50 hover:text-zinc-200'
                   )}
                 >
@@ -67,17 +67,12 @@ export default function FormatList({ formats, selected, onSelect }: Props) {
                       className={cn(
                         'flex h-4 w-4 shrink-0 items-center justify-center rounded-full border transition-colors',
                         isSelected
-                          ? 'border-violet-500 bg-violet-600'
+                          ? 'border-cyan-500 bg-cyan-600'
                           : 'border-zinc-700 group-hover:border-zinc-500'
                       )}
                     >
                       {isSelected && <Check className="h-2.5 w-2.5 text-white" strokeWidth={3} />}
                     </div>
-
-                    <span className="font-mono text-xs text-zinc-500 shrink-0">
-                      {format.format_id}
-                    </span>
-
                     <span className="truncate text-sm">
                       {format.format.split(' - ').slice(1).join(' - ') || format.format}
                     </span>
