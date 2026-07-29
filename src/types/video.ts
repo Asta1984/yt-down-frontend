@@ -64,15 +64,6 @@ export const QueueResponseSchema = z.object({
   status: z.string(),
 })
 
-export const JobStatusSchema = z.object({
-  success: z.boolean(),
-  jobId: z.string(),
-  status: z.enum(['waiting', 'active', 'completed', 'failed', 'delayed', 'unknown']),
-  progress: z.number(),
-  data: z.object({ url: z.string(), formatId: z.string() }).nullable().optional(),
-  result: z.object({ filePath: z.string(), filename: z.string() }).nullable().optional(),
-})
-
 export const UrlSchema = z.object({
   url: z.string().min(1, 'URL is required').url('Please enter a valid URL'),
 })
@@ -83,7 +74,6 @@ export type VideoFormat = z.infer<typeof VideoFormatSchema>
 export type VideoInfo = z.infer<typeof VideoInfoSchema>
 export type VideoInfoResponse = z.infer<typeof VideoInfoResponseSchema>
 export type QueueResponse = z.infer<typeof QueueResponseSchema>
-export type JobStatus = z.infer<typeof JobStatusSchema>
 export type UrlForm = z.infer<typeof UrlSchema>
 
 // ── Derived helpers ───────────────────────────────────────────────────────────

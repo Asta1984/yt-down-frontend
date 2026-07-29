@@ -2,10 +2,8 @@ import { apiClient } from './client'
 import {
   VideoInfoResponseSchema,
   QueueResponseSchema,
-  JobStatusSchema,
   type VideoInfoResponse,
   type QueueResponse,
-  type JobStatus,
 } from '@/types/video'
 
 export async function getVideoInfo(url: string): Promise<VideoInfoResponse> {
@@ -16,11 +14,6 @@ export async function getVideoInfo(url: string): Promise<VideoInfoResponse> {
 export async function queueDownload(url: string, formatId: string): Promise<QueueResponse> {
   const { data } = await apiClient.post('/download', { url, formatId })
   return QueueResponseSchema.parse(data)
-}
-
-export async function getJobStatus(jobId: string): Promise<JobStatus> {
-  const { data } = await apiClient.get(`/job/${jobId}`)
-  return JobStatusSchema.parse(data)
 }
 
 export function getDownloadUrl(jobId: string): string {

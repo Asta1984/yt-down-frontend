@@ -1,10 +1,6 @@
-import { queueDownload, getJobStatus, getDownloadUrl } from '@/api/videoApi'
+import { queueDownload, getDownloadUrl } from '@/api/videoApi'
 import { useDownloadStore } from '@/store/downloadStore'
 import { useVideoStore } from '@/store/videoStore'
-import { sleep } from '@/lib/utils'
-
-const POLL_INTERVAL_MS = 200
-const MAX_POLLS = 3000 
 
 export function useDownload() {
   const { url } = useVideoStore()
@@ -29,38 +25,34 @@ export function useDownload() {
       const { jobId: newJobId } = await queueDownload(url, formatId)
       setJobId(newJobId)
       setDownloadState('active')
+      await new Promise<void>((resolve, reject) => {
+        const base = import.meta.env.VITE_API_BASE ?? 'http://localhost:5000/api'
+        const es = new EventSource(`${base}/job/${newJobId}/progress`)
 
-      // 2. Poll for completion
-      let polls = 0
-      while (polls < MAX_POLLS) {
-        await sleep(POLL_INTERVAL_MS)
-        polls++
+        es.onmessage = (e) => {
+          const { progress, status } = JSON.parse(e.data)
+          setProgress(progress)
 
-        const status = await getJobStatus(newJobId)
-        setProgress(status.progress)
+          if (status === 'completed') {
+            setDownloadState('completed')
+            setProgress(100)
+            es.close()
+            resolve()
+          }
 
-        if (status.status === 'active'){
-          setDownloadState('active')
-          setProgress(status.progress)
+          if (status === 'failed') {
+            es.close()
+            reject(new Error('Download job failed on the server'))
+          }
         }
 
-        if (status.status === 'waiting'){
-          setDownloadState('queued')
-          setProgress(status.progress)
+        es.onerror = () => {
+          es.close()
+          reject(new Error('Lost connection to server'))
         }
+      })
 
-        if (status.status === 'completed') {
-          setDownloadState('completed')
-          setProgress(100)
-          return newJobId
-        }
-
-        if (status.status === 'failed') {
-          throw new Error('Download job failed on the server')
-        }
-      }
-
-      throw new Error('Download timed out')
+      return newJobId
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Download failed')
       return null
