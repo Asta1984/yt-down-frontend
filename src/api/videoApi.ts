@@ -11,8 +11,8 @@ export async function getVideoInfo(url: string): Promise<VideoInfoResponse> {
   return VideoInfoResponseSchema.parse(data)
 }
 
-export async function queueDownload(url: string, formatId: string): Promise<QueueResponse> {
-  const { data } = await apiClient.post('/download', { url, formatId })
+export async function queueDownload(url: string, formatId: string, filename?: string, videoTitle?: string): Promise<QueueResponse> {
+  const { data } = await apiClient.post('/download', { url, formatId, filename, videoTitle})
   return QueueResponseSchema.parse(data)
 }
 

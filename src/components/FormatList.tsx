@@ -4,19 +4,12 @@ import type { VideoFormat } from '@/types/video'
 import { Badge } from '@/components/ui/badge'
 import { formatBytes } from '@/lib/utils'
 import { cn } from '@/lib/utils'
+import { hasVideo, hasAudio, isVideoOnly, isAudioOnly } from '@/lib/format'
 
 interface Props {
   formats: VideoFormat[]
   selected: VideoFormat | null
   onSelect: (format: VideoFormat) => void
-}
-
-function hasVideo(f: VideoFormat) {
-  return f.vcodec !== 'none' && !!f.width
-}
-
-function hasAudio(f: VideoFormat) {
-  return f.acodec !== 'none'
 }
 
 export default function FormatList({ formats, selected, onSelect }: Props) {
@@ -27,14 +20,14 @@ export default function FormatList({ formats, selected, onSelect }: Props) {
 
     return {
       combined: useful.filter(f => hasVideo(f) && hasAudio(f)),
-      videoOnly: useful.filter(f => hasVideo(f) && !hasAudio(f)),
-      audioOnly: useful.filter(f => !hasVideo(f) && hasAudio(f)),
+      videoOnly: useful.filter(f => isVideoOnly(f)),
+      audioOnly: useful.filter(f => isAudioOnly(f)),
     }
   }, [formats])
 
   const sections = [
     { label: 'Video + Audio', formats: combined, variant: 'video' as const },
-    { label: 'Video only', formats: videoOnly, variant: 'video' as const },
+    { label: 'Video + Audio(Custom)', formats: videoOnly, variant: 'video' as const },
     { label: 'Audio only', formats: audioOnly, variant: 'audio' as const },
   ].filter(s => s.formats.length > 0)
 
@@ -84,6 +77,12 @@ export default function FormatList({ formats, selected, onSelect }: Props) {
                     )}
                     {fps && (
                       <Badge variant="muted">{fps}</Badge>
+                    )}
+                     {isVideoOnly(format) && (
+                      <Badge variant="muted">+ audio</Badge>
+                    )}
+                    {isAudioOnly(format) && (
+                      <Badge variant="muted">+ cover art</Badge>
                     )}
                     <Badge variant="default">.{format.ext}</Badge>
                     {format.filesize && (

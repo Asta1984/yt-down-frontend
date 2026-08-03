@@ -16,13 +16,14 @@ export function useDownload() {
     reset,
   } = useDownloadStore()
 
-  async function startDownload(formatId: string) {
+  async function startDownload(formatId: string, filename?: string) {
     reset()
     setDownloadState('queued')
 
     try {
       // 1. Queue the job
-      const { jobId: newJobId } = await queueDownload(url, formatId)
+      const { video } = useVideoStore.getState()
+      const { jobId: newJobId } = await queueDownload(url, formatId, filename, video?.title ?? undefined )
       setJobId(newJobId)
       setDownloadState('active')
       await new Promise<void>((resolve, reject) => {
