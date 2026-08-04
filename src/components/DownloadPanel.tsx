@@ -6,7 +6,8 @@ import { cn } from '@/lib/utils';
 import {Progress} from '@/components/ui/progress';
 import { Input } from '@/components/ui/input';
 import { useState, useEffect } from 'react';
-import { getDownloadFormatId } from '@/lib/format';
+import { getDownloadOptions} from '@/lib/format';
+
 // Strip characters that are unsafe in filenames across OSes
 function sanitizeForInput(title: string): string {
   return title.replace(/[/\\?%*:|"<>]/g, '').trim().slice(0, 150)
@@ -29,7 +30,10 @@ export default function DownloadPanel() {
   function handleClick() {
     if (isDone) { triggerSave(); return }
     if (isFailed) { reset(); return }
-    if (canStart) startDownload(getDownloadFormatId(selectedFormat), filename)
+    if (canStart){
+        const opts = getDownloadOptions(selectedFormat)
+        startDownload(opts.formatId, filename, opts.embedThumbnail, opts.audioFormat)
+    }
   }
 
   return (

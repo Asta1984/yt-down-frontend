@@ -1,7 +1,7 @@
 import { queueDownload, getDownloadUrl } from '@/api/videoApi'
 import { useDownloadStore } from '@/store/downloadStore'
 import { useVideoStore } from '@/store/videoStore'
-
+import type { AudioTarget } from '@/types/video'
 export function useDownload() {
   const { url } = useVideoStore()
   const {
@@ -16,14 +16,15 @@ export function useDownload() {
     reset,
   } = useDownloadStore()
 
-  async function startDownload(formatId: string, filename?: string) {
+  async function startDownload(formatId: string, filename?: string, embedThumbnail = false, audioFormat: AudioTarget | null = null
+) {
     reset()
     setDownloadState('queued')
 
     try {
       // 1. Queue the job
       const { video } = useVideoStore.getState()
-      const { jobId: newJobId } = await queueDownload(url, formatId, filename, video?.title ?? undefined )
+      const { jobId: newJobId } = await queueDownload(url, formatId, filename, video?.title ?? undefined, embedThumbnail, audioFormat ?? undefined)
       setJobId(newJobId)
       setDownloadState('active')
       await new Promise<void>((resolve, reject) => {

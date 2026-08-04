@@ -84,3 +84,6 @@ export type DownloadState =
   | 'active'
   | 'completed'
   | 'failed'
+
+// yt-dlp's supported --audio-format values that we're willing to target.
+export type AudioTarget = 'm4a' | 'mp3' | 'opus' | 'vorbis' | 'flac' | 'wav'
