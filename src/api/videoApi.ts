@@ -4,6 +4,7 @@ import {
   QueueResponseSchema,
   type VideoInfoResponse,
   type QueueResponse,
+  type JobSummary,
 } from '@/types/video'
 
 export async function getVideoInfo(url: string): Promise<VideoInfoResponse> {
@@ -14,6 +15,20 @@ export async function getVideoInfo(url: string): Promise<VideoInfoResponse> {
 export async function queueDownload(url: string, formatId: string, filename?: string, videoTitle?: string, embedThumbnail = false, audioFormat?:string): Promise<QueueResponse> {
   const { data } = await apiClient.post('/download', { url, formatId, filename, videoTitle, embedThumbnail, audioFormat})
   return QueueResponseSchema.parse(data)
+}
+
+export async function listJobs(): Promise<JobSummary[]> {
+  const { data } = await apiClient.get('/jobs')
+  return data.jobs
+}
+
+export async function cancelJob(jobId: string): Promise<void> {
+  await apiClient.delete(`/job/${jobId}`)
+}
+
+export function getJobsEventsUrl(): string {
+  const base = import.meta.env.VITE_API_BASE ?? 'http://localhost:5000/api'
+  return `${base}/jobs/events`
 }
 
 export function getDownloadUrl(jobId: string): string {

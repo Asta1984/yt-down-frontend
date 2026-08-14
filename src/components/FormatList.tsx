@@ -35,10 +35,10 @@ export default function FormatList({ formats, selected, onSelect }: Props) {
     <div className="space-y-4">
       {sections.map(section => (
         <div key={section.label}>
-          <p className="mb-2 text-[11px] font-medium uppercase tracking-widest text-zinc-600">
+          <p className="mb-2 text-[11px] font-medium uppercase tracking-widest text-accent">
             {section.label}
           </p>
-          <div className="space-y-1">
+          <div className="space-y-1 grid md:grid-cols-3 md:gap-10 gap-4">
             {section.formats.map(format => {
               const isSelected = selected?.format_id === format.format_id
               const resolution = format.height ? `${format.height}p` : null
@@ -52,7 +52,7 @@ export default function FormatList({ formats, selected, onSelect }: Props) {
                     'group w-full flex items-center justify-between rounded-md border px-3 py-2.5 text-left transition-colors',
                     isSelected
                       ? 'border-cyan-700 bg-cyan-950/50 text-zinc-100'
-                      : 'border-zinc-800 bg-zinc-900/30 text-zinc-400 hover:border-zinc-700 hover:bg-zinc-800/50 hover:text-zinc-200'
+                      : 'border-zinc-800 bg-gray-950/70 text-zinc-300 hover:border-zinc-700 hover:bg-zinc-800/50 hover:text-zinc-50'
                   )}
                 >
                   <div className="flex items-center gap-2.5 min-w-0">
@@ -86,7 +86,7 @@ export default function FormatList({ formats, selected, onSelect }: Props) {
                     )}
                     <Badge variant="default">.{format.ext}</Badge>
                     {format.filesize && (
-                      <span className="font-mono text-[11px] text-zinc-600">
+                      <span className="font-mono text-[11px] text-zinc-100">
                         {formatBytes(format.filesize)}
                       </span>
                     )}
