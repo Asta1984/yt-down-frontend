@@ -35,7 +35,7 @@ export default function FormatList({ formats, selected, onSelect }: Props) {
     <div className="space-y-4">
       {sections.map(section => (
         <div key={section.label}>
-          <p className="mb-2 text-[11px] font-medium uppercase tracking-widest text-accent">
+          <p className="mb-2 text-[11px] font-medium uppercase tracking-widest text-accent font-mono">
             {section.label}
           </p>
           <div className="space-y-1 grid md:grid-cols-3 md:gap-10 gap-4">

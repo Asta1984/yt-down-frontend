@@ -41,8 +41,8 @@ export default function UrlInput() {
           onKeyDown={handleKeyDown}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          placeholder="Paste a video URL — YouTube, Vimeo, and more"
-          className="border-0 bg-transparent px-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-100 placeholder:text-zinc-600"
+          placeholder="Paste a youtube video URL"
+          className="border-0 bg-transparent px-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-100 placeholder:text-zinc-400"
           spellCheck={false}
           autoComplete="off"
         />

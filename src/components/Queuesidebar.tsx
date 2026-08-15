@@ -95,7 +95,7 @@ export default function QueueSidebar() {
       {/* Desktop: collapsible right sidebar */}
       <aside
         className={cn(
-          'fixed inset-y-0 right-0 z-30 hidden flex-col border-l border-zinc-800/60 opacity-85 bg-zinc-950 transition-[width] duration-200 md:flex',
+          'fixed inset-y-0 right-0 z-30 hidden flex-col border-l border-zinc-800/60 opacity-85 bg-zinc-950 transition-[width] duration-200 md:flex rounded-lg',
           open ? 'w-80 p-4' : 'w-12 items-center py-4'
         )}
       >
