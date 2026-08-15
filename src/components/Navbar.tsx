@@ -38,7 +38,7 @@ export function Navbar({
     >
       <div className="mx-auto flex max-w-2xl items-center justify-between gap-4">
         <div className="flex items-baseline gap-2">
-          <span className="font-mono text-amber-700 text-2xl font-medium tracking-tight">
+          <span className="font-mono text-amber-700 md:text-2xl font-medium tracking-tight">
             {title}
           </span>
 
